@@ -1,0 +1,113 @@
+<%- include('../partials/header') %>
+
+<div class="admin-page">
+
+  <div class="admin-header">
+
+    <div>
+      <p class="admin-header__eyebrow">Administration</p>
+      <h1>Inventory</h1>
+    </div>
+
+    <a href="/admin" class="admin-button admin-button--secondary">
+      Dashboard
+    </a>
+
+  </div>
+
+  <%- include('_nav') %>
+
+  <div class="admin-table-wrapper">
+
+    <table class="admin-table">
+
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>SKU</th>
+          <th>Category</th>
+          <th>Stock</th>
+          <th>Availability</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <% products.forEach(product => { %>
+
+          <tr>
+
+            <td>
+              <strong><%= product.name %></strong>
+            </td>
+
+            <td>
+              <span class="sku"><%= product.sku %></span>
+            </td>
+
+            <td>
+              <%= product.category_name || '—' %>
+            </td>
+
+            <td>
+              <form
+                action="/admin/inventory/<%= product.id %>/stock"
+                method="POST"
+                class="admin-inline-form"
+              >
+                <input
+                  type="number"
+                  name="stock"
+                  value="<%= product.stock %>"
+                  min="0"
+                  step="1"
+                  required
+                >
+            
+                <button
+                  type="submit"
+                  class="admin-button admin-button--small"
+                >
+                  Update
+                </button>
+              </form>
+            </td>
+
+            <td>
+
+              <% if (product.stock === 0) { %>
+
+                <span class="status-badge status-badge--out">
+                  Out of stock
+                </span>
+
+              <% } else if (product.stock <= 5) { %>
+
+                <span class="status-badge status-badge--low">
+                  Low stock
+                </span>
+
+              <% } else { %>
+
+                <span class="status-badge status-badge--stock">
+                  Available
+                </span>
+
+              <% } %>
+
+            </td>
+
+          </tr>
+
+        <% }) %>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<%- include('../partials/footer') %>

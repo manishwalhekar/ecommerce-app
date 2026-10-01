@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+
+<h1>Your cart</h1>
+
+<% if (items.length === 0) { %>
+  <div class="empty-state">
+    <p>Your cart is empty. <a href="/">Go find something.</a></p>
+  </div>
+<% } else { %>
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% items.forEach(function(item) { %>
+        <tr>
+          <td class="cart-table__item">
+            <img src="<%= item.image_url %>" alt="<%= item.name %>">
+            <a href="/products/<%= item.id %>"><%= item.name %></a>
+          </td>
+          <td>$<%= (item.price_cents / 100).toFixed(2) %></td>
+          <td>
+            <form action="/cart/update/<%= item.cart_item_id %>" method="POST" class="inline-form">
+              <input type="number" name="quantity" min="1" value="<%= item.quantity %>" class="qty-input">
+              <button type="submit" class="link-button">Update</button>
+            </form>
+          </td>
+          <td>$<%= ((item.price_cents * item.quantity) / 100).toFixed(2) %></td>
+          <td>
+            <form action="/cart/remove/<%= item.cart_item_id %>" method="POST" class="inline-form">
+              <button type="submit" class="link-button link-button--danger">Remove</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <div class="cart-total">
+    <span>Total</span>
+    <strong>$<%= (totalCents / 100).toFixed(2) %></strong>
+  </div>
+  <p class="cart-note">Checkout comes in a later phase — this is as far as the cart goes for now.</p>
+<% } %>
+
+<%- include('partials/footer') %>

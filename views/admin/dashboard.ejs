@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+
+<div class="admin-page">
+
+  <div class="admin-header">
+    <div>
+      <p class="admin-header__eyebrow">Administration</p>
+      <h1>Dashboard</h1>
+    </div>
+
+    <div class="admin-header__actions">
+      <a href="/" class="admin-button admin-button--secondary">
+        View store
+      </a>
+    </div>
+  </div>
+
+  <%- include('_nav') %>
+
+  <div class="admin-stats">
+
+    <div class="admin-stat-card">
+      <p class="admin-stat-card__label">Total users</p>
+      <p class="admin-stat-card__value"><%= stats.users %></p>
+    </div>
+
+    <div class="admin-stat-card">
+      <p class="admin-stat-card__label">Active products</p>
+      <p class="admin-stat-card__value"><%= stats.products %></p>
+    </div>
+
+    <div class="admin-stat-card">
+      <p class="admin-stat-card__label">Inventory</p>
+      <p class="admin-stat-card__value">Manage</p>
+    </div>
+
+    <div class="admin-stat-card">
+      <p class="admin-stat-card__label">Catalog</p>
+      <p class="admin-stat-card__value">Manage</p>
+    </div>
+
+  </div>
+
+  <div class="admin-section">
+    <h2>Quick actions</h2>
+
+    <div class="admin-header__actions">
+      <a href="/admin/products/new" class="admin-button">
+        Add product
+      </a>
+
+      <a href="/admin/products" class="admin-button admin-button--secondary">
+        Manage products
+      </a>
+
+      <a href="/admin/users" class="admin-button admin-button--secondary">
+        View users
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,115 @@
+
+<%- include('../partials/header') %>
+
+<div class="admin-page">
+
+  <div class="admin-header">
+
+    <div>
+      <p class="admin-header__eyebrow">
+        Administration
+      </p>
+
+      <h1>
+        <%= category ? 'Edit Category' : 'Create Category' %>
+      </h1>
+    </div>
+
+    <a
+      href="/admin/categories"
+      class="admin-button admin-button--secondary"
+    >
+      Back to Categories
+    </a>
+
+  </div>
+
+  <%- include('_nav') %>
+
+  <div class="admin-form-card">
+
+    <% if (error) { %>
+
+      <div class="admin-form-error">
+        <%= error %>
+      </div>
+
+    <% } %>
+
+
+    <form
+      action="<%= category ? '/admin/categories/' + category.id : '/admin/categories' %>"
+      method="POST"
+    >
+
+      <div class="admin-form-grid">
+
+        <div class="admin-form-group">
+
+          <label for="name">
+            Category name
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="<%= category?.name || '' %>"
+            maxlength="255"
+            required
+          >
+
+        </div>
+
+
+        <div class="admin-form-group">
+
+          <label for="slug">
+            Slug
+          </label>
+
+          <input
+            type="text"
+            id="slug"
+            name="slug"
+            value="<%= category?.slug || '' %>"
+            maxlength="255"
+            pattern="[a-z0-9-]+"
+            required
+          >
+
+          <p class="admin-form-help">
+            Use lowercase letters, numbers and hyphens.
+            Example: home-decor
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="admin-form-actions">
+
+        <button
+          type="submit"
+          class="admin-button"
+        >
+          <%= category ? 'Save Changes' : 'Create Category' %>
+        </button>
+
+        <a
+          href="/admin/categories"
+          class="admin-button admin-button--secondary"
+        >
+          Cancel
+        </a>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<%- include('../partials/footer') %>

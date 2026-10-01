@@ -1,0 +1,364 @@
+<%- include('../partials/header') %>
+
+<div class="admin-page">
+
+  <!-- Header -->
+  <div class="admin-header">
+    <div>
+      <p class="admin-header__eyebrow">Administration</p>
+      <h1>Products</h1>
+    </div>
+
+    <div class="admin-header__actions">
+      <a
+        href="/admin/products/new"
+        class="admin-button"
+      >
+        Add product
+      </a>
+
+      <a
+        href="/admin"
+        class="admin-button admin-button--secondary"
+      >
+        Dashboard
+      </a>
+    </div>
+  </div>
+
+
+  <!-- Admin navigation -->
+  <%- include('_nav') %>
+
+
+  <!-- Top horizontal scrollbar -->
+  <div
+    class="admin-table-scroll-top"
+    id="products-scroll-top"
+  >
+    <div
+      class="admin-table-scroll-spacer"
+      id="products-scroll-spacer"
+    ></div>
+  </div>
+
+
+  <!-- Product table -->
+  <div
+    class="admin-table-wrapper"
+    id="products-table-wrapper"
+  >
+
+    <table class="admin-table product-table">
+
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Product</th>
+          <th>SKU</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th>Replace Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+
+      <tbody>
+
+        <% if (products.length === 0) { %>
+
+          <tr>
+            <td colspan="9">
+              No products found.
+            </td>
+          </tr>
+
+        <% } else { %>
+
+          <% products.forEach(product => { %>
+
+            <tr>
+
+              <!-- IMAGE -->
+              <td>
+
+                <img
+                  class="product-image"
+                  src="/products/<%= product.id %>/image"
+                  alt="<%= product.name %>"
+                >
+
+              </td>
+
+
+              <!-- PRODUCT -->
+              <td>
+
+                <strong>
+                  <%= product.name %>
+                </strong>
+
+                <% if (product.description) { %>
+
+                  <div class="product-description">
+                    <%= product.description %>
+                  </div>
+
+                <% } %>
+
+              </td>
+
+
+              <!-- SKU -->
+              <td>
+
+                <span class="sku">
+                  <%= product.sku %>
+                </span>
+
+              </td>
+
+
+              <!-- CATEGORY -->
+              <td>
+
+                <%= product.category_name || '—' %>
+
+              </td>
+
+
+              <!-- PRICE -->
+              <td>
+
+                <form
+                  action="/admin/products/<%= product.id %>/price"
+                  method="POST"
+                  class="admin-inline-form"
+                >
+
+                  <div class="admin-price-input">
+
+                    <span>$</span>
+
+                    <input
+                      type="number"
+                      name="price"
+                      value="<%= (product.price_cents / 100).toFixed(2) %>"
+                      min="0"
+                      step="0.01"
+                      required
+                    >
+
+                    <button
+                      type="submit"
+                      class="admin-button admin-button--small"
+                    >
+                      Save
+                    </button>
+
+                  </div>
+
+                </form>
+
+              </td>
+
+
+              <!-- STOCK -->
+              <td>
+
+                <strong>
+                  <%= product.stock %>
+                </strong>
+
+              </td>
+
+
+              <!-- STATUS -->
+              <td>
+
+                <% if (product.is_active) { %>
+
+                  <span class="status-badge status-badge--active">
+                    Active
+                  </span>
+
+                <% } else { %>
+
+                  <span class="status-badge status-badge--inactive">
+                    Inactive
+                  </span>
+
+                <% } %>
+
+              </td>
+
+
+              <!-- REPLACE IMAGE -->
+              <td>
+
+                <form
+                  action="/admin/products/<%= product.id %>/image"
+                  method="POST"
+                  enctype="multipart/form-data"
+                  class="admin-image-form"
+                >
+
+                  <input
+                    type="file"
+                    name="image"
+                    accept="image/jpeg,image/png,image/webp"
+                    required
+                  >
+
+                  <button
+                    type="submit"
+                    class="admin-button admin-button--small"
+                  >
+                    Replace
+                  </button>
+
+                </form>
+
+              </td>
+
+
+              <!-- ACTIONS -->
+              <td>
+
+                <div class="admin-product-actions">
+
+                  <!-- Activate / deactivate -->
+                  <form
+                    action="/admin/products/<%= product.id %>/toggle"
+                    method="POST"
+                  >
+
+                    <button
+                      type="submit"
+                      class="admin-button admin-button--small admin-button--secondary"
+                    >
+                      <% if (product.is_active) { %>
+                        Deactivate
+                      <% } else { %>
+                        Activate
+                      <% } %>
+                    </button>
+
+                  </form>
+
+
+                  <!-- Delete -->
+                  <form
+                    action="/admin/products/<%= product.id %>/delete"
+                    method="POST"
+                    onsubmit="return confirm('Delete this product permanently?');"
+                  >
+
+                    <button
+                      type="submit"
+                      class="admin-button admin-button--small admin-button--danger"
+                    >
+                      Delete
+                    </button>
+
+                  </form>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          <% }) %>
+
+        <% } %>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const topScroll =
+    document.getElementById('products-scroll-top');
+
+  const spacer =
+    document.getElementById('products-scroll-spacer');
+
+  const tableWrapper =
+    document.getElementById('products-table-wrapper');
+
+  const table =
+    tableWrapper?.querySelector('table');
+
+
+  if (
+    !topScroll ||
+    !spacer ||
+    !tableWrapper ||
+    !table
+  ) {
+    return;
+  }
+
+
+  function updateScrollWidth() {
+    spacer.style.width = `${table.scrollWidth}px`;
+  }
+
+
+  updateScrollWidth();
+
+  window.addEventListener(
+    'resize',
+    updateScrollWidth
+  );
+
+
+  let syncingFromTop = false;
+  let syncingFromTable = false;
+
+
+  topScroll.addEventListener('scroll', () => {
+
+    if (syncingFromTable) {
+      return;
+    }
+
+    syncingFromTop = true;
+
+    tableWrapper.scrollLeft =
+      topScroll.scrollLeft;
+
+    syncingFromTop = false;
+  });
+
+
+  tableWrapper.addEventListener('scroll', () => {
+
+    if (syncingFromTop) {
+      return;
+    }
+
+    syncingFromTable = true;
+
+    topScroll.scrollLeft =
+      tableWrapper.scrollLeft;
+
+    syncingFromTable = false;
+  });
+
+});
+</script>
+
+
+<%- include('../partials/footer') %>

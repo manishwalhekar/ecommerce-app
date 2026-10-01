@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> · Fieldstock</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap site-header__row">
+      <a class="wordmark" href="/">Fieldstock</a>
+
+      <nav class="site-nav">
+        <a href="/">Shop</a>
+
+        <% if (currentUser) { %>
+
+          <a href="/cart">
+            Cart<% if (cartCount > 0) { %> (<%= cartCount %>)<% } %>
+          </a>
+
+          <% if (currentUser.role === 'admin') { %>
+            <a href="/admin">Admin</a>
+          <% } %>
+
+          <a href="/profile">
+            <%= currentUser.name %>
+          </a>
+
+          <form action="/logout" method="POST" class="inline-form">
+            <button type="submit" class="link-button">Log out</button>
+          </form>
+
+        <% } else { %>
+
+          <a href="/login">Log in</a>
+          <a href="/register" class="nav-cta">Create account</a>
+
+        <% } %>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap page">

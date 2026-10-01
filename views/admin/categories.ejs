@@ -1,0 +1,149 @@
+<%- include('../partials/header') %>
+
+<div class="admin-page">
+
+  <div class="admin-header">
+
+    <div>
+      <p class="admin-header__eyebrow">
+        Administration
+      </p>
+
+      <h1>Categories</h1>
+    </div>
+
+    <div class="admin-header__actions">
+
+      <a
+        href="/admin/categories/new"
+        class="admin-button"
+      >
+        + Add Category
+      </a>
+
+      <a
+        href="/admin"
+        class="admin-button admin-button--secondary"
+      >
+        Dashboard
+      </a>
+
+    </div>
+
+  </div>
+
+  <%- include('_nav') %>
+
+  <div class="admin-table-wrapper">
+
+    <table class="admin-table">
+
+      <thead>
+
+        <tr>
+          <th>ID</th>
+          <th>Category</th>
+          <th>Slug</th>
+          <th>Products</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <% if (categories.length === 0) { %>
+
+          <tr>
+            <td colspan="6">
+              No categories found.
+            </td>
+          </tr>
+
+        <% } %>
+
+
+        <% categories.forEach(category => { %>
+
+          <tr>
+
+            <td>
+              <span class="sku">
+                #<%= category.id %>
+              </span>
+            </td>
+
+            <td>
+              <strong>
+                <%= category.name %>
+              </strong>
+            </td>
+
+            <td>
+              <span class="sku">
+                <%= category.slug %>
+              </span>
+            </td>
+
+            <td>
+              <%= category.product_count %>
+            </td>
+
+            <td>
+              <%= new Date(category.created_at).toLocaleDateString() %>
+            </td>
+
+            <td>
+
+              <div class="admin-product-actions">
+
+                <a
+                  href="/admin/categories/<%= category.id %>/edit"
+                  class="admin-button admin-button--small"
+                >
+                  Edit
+                </a>
+
+                <% if (Number(category.product_count) === 0) { %>
+
+                  <form
+                    action="/admin/categories/<%= category.id %>/delete"
+                    method="POST"
+                    onsubmit="return confirm('Delete this category?');"
+                  >
+
+                    <button
+                      type="submit"
+                      class="admin-button admin-button--small admin-button--danger"
+                    >
+                      Delete
+                    </button>
+
+                  </form>
+
+                <% } else { %>
+
+                  <span class="admin-form-help">
+                    Used by <%= category.product_count %> product(s)
+                  </span>
+
+                <% } %>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        <% }) %>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<%- include('../partials/footer') %>

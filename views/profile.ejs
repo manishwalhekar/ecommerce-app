@@ -1,0 +1,216 @@
+<%- include('partials/header') %>
+
+<div class="profile-page">
+
+  <div class="profile-header">
+    <p class="profile-eyebrow">Account</p>
+    <h1>My Profile</h1>
+    <p class="profile-subtitle">
+      Manage your account details and password.
+    </p>
+  </div>
+
+
+  <!-- PROFILE DETAILS -->
+
+  <section class="profile-card">
+
+    <div class="profile-card-header">
+      <div>
+        <h2>Profile details</h2>
+        <p>
+          Update your name and email address.
+        </p>
+      </div>
+    </div>
+
+
+    <% if (profileError) { %>
+
+      <div class="profile-message profile-message--error">
+        <%= profileError %>
+      </div>
+
+    <% } %>
+
+
+    <% if (profileSuccess) { %>
+
+      <div class="profile-message profile-message--success">
+        <%= profileSuccess %>
+      </div>
+
+    <% } %>
+
+
+    <form
+      action="/profile"
+      method="POST"
+      class="profile-form"
+    >
+
+      <div class="profile-form-group">
+
+        <label for="name">
+          Name
+        </label>
+
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="<%= user.name %>"
+          maxlength="100"
+          required
+        >
+
+      </div>
+
+
+      <div class="profile-form-group">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="<%= user.email %>"
+          maxlength="255"
+          required
+        >
+
+      </div>
+
+
+      <div class="profile-form-actions">
+
+        <button
+          type="submit"
+          class="profile-button"
+        >
+          Save Changes
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+
+  <!-- CHANGE PASSWORD -->
+
+  <section class="profile-card">
+
+    <div class="profile-card-header">
+      <div>
+        <h2>Change password</h2>
+        <p>
+          Enter your current password before choosing a new one.
+        </p>
+      </div>
+    </div>
+
+
+    <% if (passwordError) { %>
+
+      <div class="profile-message profile-message--error">
+        <%= passwordError %>
+      </div>
+
+    <% } %>
+
+
+    <% if (passwordSuccess) { %>
+
+      <div class="profile-message profile-message--success">
+        <%= passwordSuccess %>
+      </div>
+
+    <% } %>
+
+
+    <form
+      action="/profile/password"
+      method="POST"
+      class="profile-form"
+    >
+
+      <div class="profile-form-group">
+
+        <label for="currentPassword">
+          Current password
+        </label>
+
+        <input
+          type="password"
+          id="currentPassword"
+          name="currentPassword"
+          autocomplete="current-password"
+          required
+        >
+
+      </div>
+
+
+      <div class="profile-form-group">
+
+        <label for="newPassword">
+          New password
+        </label>
+
+        <input
+          type="password"
+          id="newPassword"
+          name="newPassword"
+          minlength="8"
+          autocomplete="new-password"
+          required
+        >
+
+        <p class="profile-help">
+          Minimum 8 characters.
+        </p>
+
+      </div>
+
+
+      <div class="profile-form-group">
+
+        <label for="confirmPassword">
+          Confirm new password
+        </label>
+
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          minlength="8"
+          autocomplete="new-password"
+          required
+        >
+
+      </div>
+
+
+      <div class="profile-form-actions">
+
+        <button
+          type="submit"
+          class="profile-button"
+        >
+          Change Password
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,149 @@
+<%- include('../partials/header') %>
+
+<div class="admin-page">
+
+  <div class="admin-header">
+    <div>
+      <p class="admin-header__eyebrow">Administration</p>
+      <h1>Users</h1>
+    </div>
+
+    <div class="admin-header__actions">
+      <a
+        href="/admin/users/new"
+        class="admin-button"
+      >
+        + Add User
+      </a>
+
+      <a
+        href="/admin"
+        class="admin-button admin-button--secondary"
+      >
+        Dashboard
+      </a>
+    </div>
+  </div>
+
+  <%- include('_nav') %>
+
+  <div class="admin-table-wrapper">
+
+    <table class="admin-table">
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <% if (users.length === 0) { %>
+
+          <tr>
+            <td colspan="6">
+              No users found.
+            </td>
+          </tr>
+
+        <% } %>
+
+        <% users.forEach(user => { %>
+
+          <tr>
+
+            <td>
+              <span class="sku">
+                #<%= user.id %>
+              </span>
+            </td>
+
+            <td>
+              <strong>
+                <%= user.name %>
+              </strong>
+            </td>
+
+            <td>
+              <%= user.email %>
+            </td>
+
+            <td>
+
+              <% if (user.role === 'admin') { %>
+
+                <span class="status-badge status-badge--stock">
+                  Admin
+                </span>
+
+              <% } else { %>
+
+                <span class="status-badge">
+                  Customer
+                </span>
+
+              <% } %>
+
+            </td>
+
+            <td>
+              <%= new Date(user.created_at).toLocaleDateString() %>
+            </td>
+
+            <td>
+
+              <div class="admin-product-actions">
+
+                <a
+                  href="/admin/users/<%= user.id %>/edit"
+                  class="admin-button admin-button--small"
+                >
+                  Edit
+                </a>
+
+                <% if (user.id !== currentUser.id) { %>
+
+                  <form
+                    action="/admin/users/<%= user.id %>/delete"
+                    method="POST"
+                    onsubmit="return confirm('Delete this user? Their cart will also be removed.');"
+                  >
+                    <button
+                      type="submit"
+                      class="admin-button admin-button--small admin-button--danger"
+                    >
+                      Delete
+                    </button>
+                  </form>
+
+                <% } else { %>
+
+                  <span class="admin-form-help">
+                    Current admin
+                  </span>
+
+                <% } %>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        <% }) %>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+<%- include('../partials/footer') %>

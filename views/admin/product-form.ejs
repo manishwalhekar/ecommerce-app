@@ -1,0 +1,201 @@
+<%- include('../partials/header') %>
+
+<div class="admin-page">
+
+  <div class="admin-header">
+
+    <div>
+      <p class="admin-header__eyebrow">Administration</p>
+      <h1>Add Product</h1>
+    </div>
+
+    <a
+      href="/admin/products"
+      class="admin-button admin-button--secondary"
+    >
+      Back to products
+    </a>
+
+  </div>
+
+  <%- include('_nav') %>
+
+  <div class="admin-form-card">
+
+    <form
+      action="/admin/products"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+
+      <div class="admin-form-grid">
+
+        <div class="admin-form-group">
+
+          <label for="sku">
+            SKU
+          </label>
+
+          <input
+            type="text"
+            id="sku"
+            name="sku"
+            required
+            placeholder="HOME-TOTE-001"
+          >
+
+        </div>
+
+
+        <div class="admin-form-group">
+
+          <label for="name">
+            Product name
+          </label>
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            placeholder="Canvas Tote Bag"
+          >
+
+        </div>
+
+
+        <div class="admin-form-group">
+
+          <label for="price">
+            Price
+          </label>
+
+          <input
+            type="number"
+            id="price"
+            name="price"
+            min="0"
+            step="0.01"
+            required
+            placeholder="22.00"
+          >
+
+          <p class="admin-form-help">
+            Enter the selling price in dollars.
+          </p>
+
+        </div>
+
+
+        <div class="admin-form-group">
+
+          <label for="stock">
+            Stock
+          </label>
+
+          <input
+            type="number"
+            id="stock"
+            name="stock"
+            min="0"
+            step="1"
+            value="0"
+            required
+          >
+
+        </div>
+
+
+        <div class="admin-form-group">
+
+          <label for="categoryId">
+            Category
+          </label>
+
+          <select
+            id="categoryId"
+            name="categoryId"
+            required
+          >
+
+            <option value="">
+              Select category
+            </option>
+
+            <% categories.forEach(category => { %>
+
+              <option value="<%= category.id %>">
+                <%= category.name %>
+              </option>
+
+            <% }) %>
+
+          </select>
+
+        </div>
+
+
+        <div class="admin-form-group">
+
+          <label for="image">
+            Product image
+          </label>
+
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/jpeg,image/png,image/webp"
+            required
+          >
+
+          <p class="admin-form-help">
+            JPG, PNG or WebP. Maximum 5 MB.
+          </p>
+
+        </div>
+
+
+        <div class="admin-form-group admin-form-group--full">
+
+          <label for="description">
+            Description
+          </label>
+
+          <textarea
+            id="description"
+            name="description"
+            required
+            placeholder="Describe the product..."
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <div class="admin-form-actions">
+
+        <a
+          href="/admin/products"
+          class="admin-button admin-button--secondary"
+        >
+          Cancel
+        </a>
+
+        <button
+          type="submit"
+          class="admin-button"
+        >
+          Create product
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,88 @@
+<%- include('partials/header') %>
+
+<main class="shop-page">
+
+  <div class="shop-header">
+    <h1><%= title %></h1>
+
+    <nav class="category-nav" aria-label="Product categories">
+      <a
+        href="/"
+        class="<%= !selectedCategory ? 'active' : '' %>"
+      >
+        All
+      </a>
+
+      <% categories.forEach(category => { %>
+        <a
+          href="/?category=<%= encodeURIComponent(category.slug) %>"
+          class="<%= selectedCategory && selectedCategory.slug === category.slug ? 'active' : '' %>"
+        >
+          <%= category.name %>
+        </a>
+      <% }) %>
+    </nav>
+  </div>
+
+  <% if (products.length === 0) { %>
+
+    <p>No products found in this category.</p>
+
+  <% } else { %>
+
+    <div class="product-grid">
+
+      <% products.forEach(product => { %>
+
+        <article class="product-card">
+
+          <a href="/products/<%= product.id %>">
+            <img
+              src="/products/<%= product.id %>/image"
+              alt="<%= product.name %>"
+            >
+          </a>
+
+          <div class="product-card-content">
+
+            <p class="product-category">
+              <%= product.category_name %>
+            </p>
+
+            <h2>
+              <a href="/products/<%= product.id %>">
+                <%= product.name %>
+              </a>
+            </h2>
+
+            <p>
+              <%= product.description %>
+            </p>
+
+            <p class="product-price">
+              $<%= (product.price_cents / 100).toFixed(2) %>
+            </p>
+
+            <% if (product.stock > 0) { %>
+              <p class="stock-status">
+                In stock
+              </p>
+            <% } else { %>
+              <p class="stock-status">
+                Out of stock
+              </p>
+            <% } %>
+
+          </div>
+
+        </article>
+
+      <% }) %>
+
+    </div>
+
+  <% } %>
+
+</main>
+
+<%- include('partials/footer') %> 
