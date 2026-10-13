@@ -35,10 +35,10 @@ This project is also a hands-on DevOps learning project covering GitLab CI/CD, D
 #### Product Details
 ![Product Details](https://github.com/user-attachments/assets/a762cb5d-c394-446a-bd02-df0081fa07c0)
 
-#### Authentication
+#### Your Cart
 ![Authentication](https://github.com/user-attachments/assets/20f1b00a-2ae8-443d-a95c-bd02b9a363fa)
 
-#### Shopping Cart / Customer View
+#### Customer Profile
 ![Customer View](https://github.com/user-attachments/assets/92dbdb4f-e8d3-4735-b412-479295aa97de)
 
 ### Admin Dashboard
@@ -46,10 +46,10 @@ This project is also a hands-on DevOps learning project covering GitLab CI/CD, D
 #### Dashboard
 ![Admin Dashboard](https://github.com/user-attachments/assets/58aac633-ac81-41d5-a128-40989ba59cb7)
 
-#### User Management
+#### Product Management
 ![User Management](https://github.com/user-attachments/assets/2029ed72-3218-4259-99e9-ea84b44b114e)
 
-#### Product Management
+#### Inventory Management
 ![Product Management](https://github.com/user-attachments/assets/cf08b320-9fc9-41b0-942c-f173030ee5d1)
 
 #### Category Management
