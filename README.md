@@ -1,4 +1,4 @@
-# ShopNest - Ecommerce Application
+# Ecommerce Application
 
 A realistic ecommerce web application built with Node.js, Express, EJS, and MySQL.
 
